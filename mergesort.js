@@ -1,25 +1,33 @@
-function split(array) {
-  if (array.length < 2) {
-    return array;
+function split(wholeArray) {
+  if (wholeArray.length < 2) {
+    return wholeArray;
   }
+  let middle = Math.floor(wholeArray.length / 2);
+  let firstArr = wholeArray.slice(0, middle);
+  let secondArr = wholeArray.slice(middle);
 
-  let middle = Math.floor(array.length / 2);
-  let firstHalf = array.slice(0, middle);
-  let secondHalf = array.slice(middle);
-
-  return mergeSort(split(firstHalf), split(secondHalf));
+  return [firstArr, secondArr];
 }
 
-function mergeSort(firstHalf, secondHalf) {
+function merge(firstArr, secondArr) {
   let temp = [];
 
-  while (firstHalf[0] && secondHalf[0]) {
-    if (firstHalf[0] > secondHalf[0]) {
-      temp.push(secondHalf.shift());
+  while (firstArr[0] && secondArr[0]) {
+    if (firstArr[0] > secondArr[0]) {
+      temp.push(secondArr.shift());
     } else {
-      temp.push(firstHalf.shift());
+      temp.push(firstArr.shift());
     }
   }
 
-  return temp.concat(firstHalf).concat(secondHalf);
+  return temp.concat(firstArr).concat(secondArr);
+}
+
+function mergeSort(array) {
+  let splitArray = split(array);
+  let splitA = splitArray[0];
+  let splitB = splitArray[1];
+  while (splitA) {
+    split(splitA);
+  }
 }

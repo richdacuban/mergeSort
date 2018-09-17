@@ -1,7 +1,4 @@
 function split(wholeArray) {
-  if (wholeArray.length < 2) {
-    return wholeArray;
-  }
   let middle = Math.floor(wholeArray.length / 2);
   let firstArr = wholeArray.slice(0, middle);
   let secondArr = wholeArray.slice(middle);
@@ -9,25 +6,29 @@ function split(wholeArray) {
   return [firstArr, secondArr];
 }
 
-function merge(firstArr, secondArr) {
-  let temp = [];
-
-  while (firstArr[0] && secondArr[0]) {
-    if (firstArr[0] > secondArr[0]) {
-      temp.push(secondArr.shift());
+function merge(left, right) {
+  const merged = [];
+  let leftIdx = 0,
+    rightIdx = 0;
+  while (leftIdx < left.length && rightIdx < right.length) {
+    if (left[leftIdx] < right[rightIdx]) {
+      merged.push(left[leftIdx++]);
     } else {
-      temp.push(firstArr.shift());
+      merged.push(right[rightIdx++]);
     }
   }
-
-  return temp.concat(firstArr).concat(secondArr);
+  for (; leftIdx < left.length; leftIdx++) merged.push(left[leftIdx]);
+  for (; rightIdx < right.length; rightIdx++) merged.push(right[rightIdx]);
+  return merged;
 }
 
 function mergeSort(array) {
+  if (array.length < 2) {
+    return array;
+  }
   let splitArray = split(array);
   let splitA = splitArray[0];
   let splitB = splitArray[1];
-  while (splitA) {
-    split(splitA);
-  }
+
+  return merge(mergeSort(splitA), mergeSort(splitB));
 }
